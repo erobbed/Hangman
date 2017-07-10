@@ -39,7 +39,6 @@ class Game
     puts "Please enter your name:"
     name = self.get_user_input
     puts nil
-    @user = User.new(name) #leaving this to you to try out, Luke!
     self.find_and_set_user(name)
     puts "Hey, #{name.capitalize}!"
     puts nil
@@ -57,11 +56,13 @@ class Game
   	if letter == @winning_word
       @blank = letter.split("")
   	elsif @winning_word.include?(letter)
+      puts nil
+      puts "Nice! Keep going!"
   		self.fill_in(letter)
       @alpha.delete(letter.upcase)
     elsif letter.upcase == "QUIT"
+      puts nil
       puts "Okay! Goodbye!"
-      self.high_scores
       @status = true
   	elsif letter.upcase == "HELP"
       self.options
@@ -91,15 +92,15 @@ class Game
       puts "You got it! The word was '#{@winning_word.upcase}'!"
       # user.wins += 1
       @user.update_stats(true)
-      self.high_scores
       @status = true
     elsif @wrong_guesses >= 6
       puts "Sorry. You died."
       puts "The correct word was: '#{@winning_word.upcase}'"
-      puts "RIP"
+      puts nil
+      puts "RIP, #{@user.name}"
       puts nil
       @user.update_stats(false)
-      self.high_scores
+      self.lost
       @status = true
     end
   end
@@ -114,6 +115,7 @@ class Game
       print "|          \n";
       print "|              \n";
       print "|              \n";
+      puts nil
     when 1
       print " _________     \n";
         print "|         |    \n";
@@ -122,6 +124,7 @@ class Game
         print "|             \n";
         print "|              \n";
         print "|              \n";
+        puts nil
     when 2
       print " _________     \n";
         print "|         |    \n";
@@ -130,6 +133,7 @@ class Game
         print "|             \n";
         print "|              \n";
         print "|              \n";
+        puts nil
     when 3
       print " _________     \n";
         print "|         |    \n";
@@ -138,6 +142,7 @@ class Game
         print "|              \n";
         print "|              \n";
         print "|              \n";
+        puts nil
     when 4
       print " _________     \n";
         print "|         |    \n";
@@ -146,6 +151,7 @@ class Game
         print "|              \n";
         print "|              \n";
         print "|              \n";
+        puts nil
     when 5
       print " _________     \n";
         print "|         |    \n";
@@ -154,6 +160,7 @@ class Game
         print "|          \\  \n";
         print "|              \n";
         print "|              \n";
+        puts nil
     when 6
   	  print " _________     \n";
       print "|         |    \n";
@@ -162,7 +169,7 @@ class Game
       print "|        / \\  \n";
       print "|              \n";
       print "|              \n";
-
+      puts nil
     end
   end
 
@@ -172,6 +179,8 @@ class Game
       self.hangman
       self.over?
     end
+    self.high_scores
+    puts nil
     puts "Would you like to play again? Y/N"
     response = self.get_user_input
     case response.upcase
@@ -179,6 +188,7 @@ class Game
       new_game = Game.new
       new_game.runner
     when "N"
+      puts nil
       puts "Goodbye!"
     end
   end
@@ -201,6 +211,29 @@ class Game
     @user = users.find(lambda{User.new(name)}) do |user|
       user.name == name
     end
+  end
+
+  def lost
+    print " ___________.._______\n";
+    print "| .__________))______|\n";
+    print "| | / /      ||\n";
+    print "| |/ /       ||\n";
+    print "| | /        ||.-''.\n";
+    print "| |/         |/  _  \\\n";
+    print "| |          ||  `/,|\n";
+    print "| |          (\\`_.'\n";
+    print "| |         .-`--'.\n";
+    print "| |        /Y . . Y\\ \n";
+    print "| |       // |   | \\\\ \n";
+    print "| |      //  | . |  \\\\ \n";
+    print "| |     ')   |   |   (`\n";
+    print "| |          ||'||\n";
+    print "| |          || ||\n";
+    print "| |          || ||\n";
+    print "| |          || ||\n";
+    print "| |         / | | \\ \n";
+    print "**********l_`-' `-' |****|\n";
+
   end
 
   def high_scores
