@@ -2,19 +2,21 @@ require 'pry'
 
 class Game
 
-  @@words = ["word"]
-    # "alike", "bright", "remember", "box", "ugly", "equal",
-    # "milk", "roomy", "unlock", "drab", "intend", "profuse",
-    # "thread", "inject", "cap", "complete", "godly", "divide", "narrow",
-    # "weight", "robin", "amuse", "man", "low", "tumble"
+  @@words = [
+    "alike", "bright", "remember", "box", "ugly", "equal",
+    "milk", "roomy", "unlock", "drab", "intend", "profuse",
+    "thread", "inject", "cap", "complete", "godly", "divide", "narrow",
+    "weight", "robin", "amuse", "man", "low", "tumble"
+  ]
 
-  attr_reader :wrong_guesses, :user
+  attr_reader :wrong_guesses, :user, :guesses
 
   def initialize
   	@winning_word = @@words.sample
     self.welcome
   	self.initial_round
     @wrong_guesses = 0
+    @guesses = []
     @status = false
   end
 
@@ -45,9 +47,14 @@ class Game
       @blank = letter.split("")
   	elsif @winning_word.include?(letter)
   		self.fill_in(letter)
+    elsif letter.upcase == "QUIT"
+      "Okay! Goodbye!"
+      @status = true
   	else
   		puts "Uh-oh! Try again:"
       puts "'#{@blank.join.upcase}'"
+      @guesses << letter
+      self.guesses
       @wrong_guesses +=1
     end
   end
@@ -143,7 +150,15 @@ class Game
       self.hangman
       self.over?
     end
-    puts "Would you like to play again?"
+    puts "Would you like to play again? Y/N"
+    response = self.get_user_input
+    case response.upcase
+    when "Y"
+      new_game = Game.new
+      new_game.runner
+    when "N"
+      puts "Goodbye!"
+    end
   end
 
   def initial_round
