@@ -39,7 +39,6 @@ class Game
     puts "Please enter your name:"
     name = self.get_user_input
     puts nil
-    @user = User.new(name) #leaving this to you to try out, Luke!
     self.find_and_set_user(name)
     puts "Hey, #{name.capitalize}!"
     puts nil
