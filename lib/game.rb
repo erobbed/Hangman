@@ -31,7 +31,8 @@ class Game
 
     puts "Please enter your name:"
     name = self.get_user_input
-    @user = User.new(name) #leaving this to you to try out, Luke!
+    #@user = User.new(name) #leaving this to you to try out, Luke!
+    self.find_and_set_user(name)
     puts "Hey, #{name.capitalize}! Guess carefully, your life is on the line..."
   end
 
@@ -65,12 +66,14 @@ class Game
     if @blank.join == @winning_word
       puts "You got it! The word was '#{@winning_word.upcase}'!!!"
       # user.wins += 1
+      @user.update_stats(true)
       @status = true
     elsif @wrong_guesses >= 6
       puts "Sorry. You died."
       puts "The correct word was: '#{@winning_word.upcase}'"
       puts "RIP"
       # user.losses += 1
+      @user.update_stats(false)
       @status = true
     end
   end
@@ -143,7 +146,12 @@ class Game
       self.hangman
       self.over?
     end
-    puts "Would you like to play again?"
+    puts "Would you like to play again? (y/n)"
+    answer = self.get_user_input
+    #binding.pry
+    if answer == "y"
+      Game.new.runner
+    end
   end
 
   def initial_round
@@ -151,4 +159,13 @@ class Game
     @blank = @winning_word.split("").map {|letter| "_" }
     puts "Guess the word: '#{@blank.join}'"
   end
+
+  def find_and_set_user(name)
+    users = User.all
+    @user = users.find(lambda{User.new(name)}) do |user|
+      user.name == name
+    end
+  end
+
+        
 end
