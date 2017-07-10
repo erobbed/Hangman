@@ -2,7 +2,6 @@ require "pry"
 
 class User
 
-# user is instance of the class, initializes with a name and inserts self into @@all
   attr_reader :name, :wins, :losses, :games_played
 
   @@all = []
@@ -12,7 +11,7 @@ class User
   	@games_played = 0
   	@wins = 0
   	@losses = 0
-    @@all << self #names repeat in @@all. need to check for repeats
+    @@all << self
   end
 
   def self.all
