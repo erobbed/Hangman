@@ -9,8 +9,8 @@ class Game
   def initialize
     self.welcome
     self.wrong_guesses = 0
-  	self.initial_round
     self.alpha = ("A".."Z").to_a
+  	self.initial_round
     self.status = false
   end
 
@@ -38,18 +38,24 @@ class Game
     gets.chomp
   end
 
+  def display_letters
+    puts "#{@alpha.join(" ")}"
+  end
+
   def choose_difficulty
     puts "Choose difficulty: EASY / HARD"
     difficulty = self.get_user_input.upcase
   end
 
   def choose_category
-    puts nil
     if self.choose_difficulty == "HARD"
       puts nil
+      puts "Categories:"
       @@hard_categories.each {|category| puts category}
       puts nil
     else
+      puts nil
+      puts "Categories:"
       @@easy_categories.each {|category| puts category}
       puts nil
     end
@@ -79,6 +85,9 @@ class Game
     puts "Nice! Keep going!"
     self.fill_in(letter)
     @alpha.delete(letter.upcase)
+    puts nil
+    puts "Your remaining letter options are:"
+    self.display_letters
   end
 
   def wrong_answer(letter)
@@ -88,7 +97,7 @@ class Game
     @alpha.delete(letter.upcase)
     puts nil
     puts "Your remaining letter options are:"
-    puts "#{@alpha.join(" ")}"
+    self.display_letters
     self.wrong_guesses +=1
   end
 
@@ -154,7 +163,6 @@ class Game
       new_game = Game.new
       new_game.runner
     when "N"
-      puts nil
       puts "Goodbye!"
     end
   end
@@ -169,6 +177,9 @@ class Game
   	self.hangman
     puts nil
     @blank = @winning_word.split("").map {|letter| "_" }
+    puts "Your letter options are:"
+    self.display_letters
+    puts nil
     puts "Guess the word: '#{self.blank}'"
   end
 
