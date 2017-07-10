@@ -38,8 +38,13 @@ class Game
 
     puts "Please enter your name:"
     name = self.get_user_input
+    puts nil
     @user = User.new(name) #leaving this to you to try out, Luke!
-    puts "Hey, #{name.capitalize}! Guess carefully, your life is on the line..."
+    puts "Hey, #{name.capitalize}!"
+    puts nil
+    self.options
+    puts "Guess carefully, your life is on the line..."
+    puts nil
   end
 
   def get_user_input
@@ -55,7 +60,9 @@ class Game
     elsif letter.upcase == "QUIT"
       "Okay! Goodbye!"
       @status = true
-  	else
+  	elsif letter.upcase == "HELP"
+      self.options
+    else
   		puts "Uh-oh! Try again:"
       puts "'#{@blank.join(" ").upcase}'"
       @alpha.delete(letter.upcase)
@@ -165,6 +172,12 @@ class Game
     when "N"
       puts "Goodbye!"
     end
+  end
+
+  def options
+    puts "Please guess a letter or guess the word."
+    puts "To exit, please type 'QUIT'."
+    puts "To see your options at any time, please type 'HELP'."
   end
 
   def initial_round
