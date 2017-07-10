@@ -2,12 +2,9 @@ require 'pry'
 
 class Game
 
-  @@words = [
-    "alike", "bright", "remember", "box", "ugly", "equal",
-    "milk", "roomy", "unlock", "drab", "intend", "profuse",
-    "thread", "inject", "cap", "complete", "godly", "divide", "narrow",
-    "weight", "robin", "amuse", "man", "low", "tumble"
-  ]
+  extend Words 
+
+  @@categories = ["animals", "tools", ""]
 
   attr_reader :wrong_guesses, :user, :guesses
 
@@ -239,4 +236,10 @@ class Game
   def high_scores
     User.display_stats
   end
+
+  def choose_category
+    puts "Choose a category:"
+    @@categories.each {|word| puts word.upcase}
+    input = gets.chomp
+    @category = self.class.(input.downcase)
 end
