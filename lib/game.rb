@@ -159,13 +159,6 @@ class Game
       self.hangman
       self.over?
     end
-
-    puts "Would you like to play again? (y/n)"
-    answer = self.get_user_input
-    #binding.pry
-    # if answer == "y"
-    #   Game.new.runner
-
     puts "Would you like to play again? Y/N"
     response = self.get_user_input
     case response.upcase
