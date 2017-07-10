@@ -10,12 +10,7 @@ class Game
     self.welcome
     self.wrong_guesses = 0
   	self.initial_round
-    self.alpha = [
-      "A", "B", "C", "D", "E", "F", "G",
-      "H", "I", "J", "K", "L", "M", "N",
-      "O", "P", "Q", "R", "S", "T", "U",
-      "V", "W", "X", "Y", "Z"
-    ]
+    self.alpha = ("A".."Z").to_a
     self.status = false
   end
 
@@ -45,13 +40,13 @@ class Game
 
   def choose_difficulty
     puts "Choose difficulty: EASY / HARD"
-    puts nil
     difficulty = self.get_user_input.upcase
   end
 
   def choose_category
     puts nil
     if self.choose_difficulty == "HARD"
+      puts nil
       @@hard_categories.each {|category| puts category}
       puts nil
     else
