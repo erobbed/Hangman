@@ -1,41 +1,30 @@
-require 'pry'
-
 class Game
+  include ASCII
+  include Categories
 
-  @@words = [
-    "alike", "bright", "remember", "box", "ugly", "equal",
-    "milk", "roomy", "unlock", "drab", "intend", "profuse",
-    "thread", "inject", "cap", "complete", "godly", "divide", "narrow",
-    "weight", "robin", "amuse", "man", "low", "tumble"
-  ]
 
-  attr_reader :wrong_guesses, :user, :guesses
+  attr_reader :user, :guesses, :category
+  attr_accessor :wrong_guesses, :status, :alpha
 
   def initialize
-  	@winning_word = @@words.sample
     self.welcome
+    self.wrong_guesses = 0
   	self.initial_round
-    @wrong_guesses = 0
-    @alpha = [
+    self.alpha = [
       "A", "B", "C", "D", "E", "F", "G",
       "H", "I", "J", "K", "L", "M", "N",
       "O", "P", "Q", "R", "S", "T", "U",
       "V", "W", "X", "Y", "Z"
     ]
-    @status = false
+    self.status = false
+  end
+
+  def blank
+    @blank.join(" ").upcase
   end
 
   def welcome
-    print "WELCOME TO: \n";
-    print " _    _ \n";
-    print "| |  | |\n";
-    print "| |__| | __ _ _ __   __ _ _ __ ___   __ _ _ __\n";
-    print "|  __  |/ _` | '_ \\ / _` | '_ ` _ \\ / _` | '_ \\ \n";
-    print "| |  | | (_| | | | | (_| | | | | | | (_| | | | |\n";
-    print "|_|  |_|\\__,_|_| |_|\\__, |_| |_| |_|\\__,_|_| |_|\n";
-    print "                     __/ |\n";
-    print "                    |___/\n";
-
+    logo
     puts "Please enter your name:"
     name = self.get_user_input
     puts nil
@@ -43,7 +32,10 @@ class Game
     puts "Hey, #{name.capitalize}!"
     puts nil
     self.options
-    puts "Guess carefully, your life is on the line..."
+    puts nil
+    self.choose_category
+    puts nil
+    puts "Guess carefully, #{name.capitalize}. Your life is on the line..."
     puts nil
   end
 
@@ -51,31 +43,58 @@ class Game
     gets.chomp
   end
 
+  def choose_difficulty
+    puts "Choose difficulty: EASY / HARD"
+    puts nil
+    difficulty = self.get_user_input.upcase
+  end
+
+  def choose_category
+    puts nil
+    if self.choose_difficulty == "HARD"
+      @@hard_categories.each {|category| puts category}
+      puts nil
+    else
+      @@easy_categories.each {|category| puts category}
+      puts nil
+    end
+    puts "Choose a category:"
+    @winning_word = self.send(self.get_user_input.downcase).sample
+  end
+
   def guess
     letter = self.get_user_input.downcase
   	if letter == @winning_word
       @blank = letter.split("")
   	elsif @winning_word.include?(letter)
-      puts nil
-      puts "Nice! Keep going!"
-  		self.fill_in(letter)
-      @alpha.delete(letter.upcase)
+      self.right_answer(letter)
     elsif letter.upcase == "QUIT"
       puts nil
       puts "Okay! Goodbye!"
-      @status = true
+      self.status = true
   	elsif letter.upcase == "HELP"
       self.options
     else
-      puts nil
-  		puts "Uh-oh! Try again:"
-      puts "'#{@blank.join(" ").upcase}'"
-      @alpha.delete(letter.upcase)
-      puts nil
-      puts "Your remaining letter options are:"
-      puts "#{@alpha.join(" ")}"
-      @wrong_guesses +=1
+      self.wrong_answer(letter)
     end
+  end
+
+  def right_answer(letter)
+    puts nil
+    puts "Nice! Keep going!"
+    self.fill_in(letter)
+    @alpha.delete(letter.upcase)
+  end
+
+  def wrong_answer(letter)
+    puts nil
+    puts "Uh-oh! Try again:"
+    puts "'#{self.blank}'"
+    @alpha.delete(letter.upcase)
+    puts nil
+    puts "Your remaining letter options are:"
+    puts "#{@alpha.join(" ")}"
+    self.wrong_guesses +=1
   end
 
   def fill_in(letter)
@@ -84,97 +103,48 @@ class Game
         @blank[ind] = letter
       end
     end
-    puts "#{@blank.join(" ").upcase}"
+    puts "#{self.blank}"
   end
 
   def over?
     if @blank.join == @winning_word
       puts "You got it! The word was '#{@winning_word.upcase}'!"
       # user.wins += 1
-      @user.update_stats(true)
-      @status = true
-    elsif @wrong_guesses >= 6
+      self.user.update_stats(true)
+      self.status = true
+    elsif self.wrong_guesses >= 6
       puts "Sorry. You died."
       puts "The correct word was: '#{@winning_word.upcase}'"
       puts nil
-      puts "RIP, #{@user.name}"
+      puts "RIP, #{self.user.name}"
       puts nil
-      @user.update_stats(false)
-      self.lost
-      @status = true
+      self.user.update_stats(false)
+      lost
+      self.status = true
     end
   end
 
   def hangman
-    case @wrong_guesses
+    case self.wrong_guesses
     when 0
-      print " _________     \n";
-      print "|         |    \n";
-      print "|             \n";
-      print "|          \n";
-      print "|          \n";
-      print "|              \n";
-      print "|              \n";
-      puts nil
+      hangman0
     when 1
-      print " _________     \n";
-        print "|         |    \n";
-        print "|         O    \n";
-        print "|             \n";
-        print "|             \n";
-        print "|              \n";
-        print "|              \n";
-        puts nil
+      hangman1
     when 2
-      print " _________     \n";
-        print "|         |    \n";
-        print "|         O    \n";
-        print "|         I  \n";
-        print "|             \n";
-        print "|              \n";
-        print "|              \n";
-        puts nil
+      hangman2
     when 3
-      print " _________     \n";
-        print "|         |    \n";
-        print "|         O    \n";
-        print "|         I\\  \n";
-        print "|              \n";
-        print "|              \n";
-        print "|              \n";
-        puts nil
+      hangman3
     when 4
-      print " _________     \n";
-        print "|         |    \n";
-        print "|         O    \n";
-        print "|        /I\\  \n";
-        print "|              \n";
-        print "|              \n";
-        print "|              \n";
-        puts nil
+      hangman4
     when 5
-      print " _________     \n";
-        print "|         |    \n";
-        print "|         O    \n";
-        print "|        /I\\  \n";
-        print "|          \\  \n";
-        print "|              \n";
-        print "|              \n";
-        puts nil
+      hangman5
     when 6
-  	  print " _________     \n";
-      print "|         |    \n";
-      print "|         O    \n";
-      print "|        /I\\  \n";
-      print "|        / \\  \n";
-      print "|              \n";
-      print "|              \n";
-      puts nil
+  	  hangman6
     end
   end
 
   def runner
-    until @status == true
+    until self.status == true
       self.guess
       self.hangman
       self.over?
@@ -183,6 +153,7 @@ class Game
     puts nil
     puts "Would you like to play again? Y/N"
     response = self.get_user_input
+    puts nil
     case response.upcase
     when "Y"
       new_game = Game.new
@@ -203,7 +174,7 @@ class Game
   	self.hangman
     puts nil
     @blank = @winning_word.split("").map {|letter| "_" }
-    puts "Guess the word: '#{@blank.join(" ")}'"
+    puts "Guess the word: '#{self.blank}'"
   end
 
   def find_and_set_user(name)
@@ -211,29 +182,6 @@ class Game
     @user = users.find(lambda{User.new(name)}) do |user|
       user.name == name
     end
-  end
-
-  def lost
-    print " ___________.._______\n";
-    print "| .__________))______|\n";
-    print "| | / /      ||\n";
-    print "| |/ /       ||\n";
-    print "| | /        ||.-''.\n";
-    print "| |/         |/  _  \\\n";
-    print "| |          ||  `/,|\n";
-    print "| |          (\\`_.'\n";
-    print "| |         .-`--'.\n";
-    print "| |        /Y . . Y\\ \n";
-    print "| |       // |   | \\\\ \n";
-    print "| |      //  | . |  \\\\ \n";
-    print "| |     ')   |   |   (`\n";
-    print "| |          ||'||\n";
-    print "| |          || ||\n";
-    print "| |          || ||\n";
-    print "| |          || ||\n";
-    print "| |         / | | \\ \n";
-    print "**********l_`-' `-' |****|\n";
-
   end
 
   def high_scores
