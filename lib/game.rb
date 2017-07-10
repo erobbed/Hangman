@@ -16,7 +16,12 @@ class Game
     self.welcome
   	self.initial_round
     @wrong_guesses = 0
-    @guesses = []
+    @alpha = [
+      "A", "B", "C", "D", "E", "F", "G",
+      "H", "I", "J", "K", "L", "M", "N",
+      "O", "P", "Q", "R", "S", "T", "U",
+      "V", "W", "X", "Y", "Z"
+    ]
     @status = false
   end
 
@@ -53,9 +58,10 @@ class Game
       @status = true
   	else
   		puts "Uh-oh! Try again:"
-      puts "'#{@blank.join.upcase}'"
-      @guesses << letter
-      self.guesses
+      puts "'#{@blank.join(" ").upcase}'"
+      @alpha.delete(letter.upcase)
+      puts "Your remaining letter options are:"
+      puts "#{@alpha.join(" ")}"
       @wrong_guesses +=1
     end
   end
@@ -64,9 +70,9 @@ class Game
     @winning_word.split("").each_with_index do |l, ind|
       if l == letter
         @blank[ind] = letter
-        puts "#{@blank.join.upcase}"
       end
     end
+    puts "#{@blank.join(" ").upcase}"
   end
 
   def over?
@@ -175,7 +181,7 @@ class Game
   def initial_round
   	self.hangman
     @blank = @winning_word.split("").map {|letter| "_" }
-    puts "Guess the word: '#{@blank.join}'"
+    puts "Guess the word: '#{@blank.join(" ")}'"
   end
 
   def find_and_set_user(name)
