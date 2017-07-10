@@ -44,7 +44,9 @@ class User
   def self.order_users_by_scores
     if self.all.length > 1
     #   binding.pry
-      self.all.sort_by{|a| [(a.wins/a.games_played).to_f, a.wins]}.reverse
+      self.all.sort_by do |a|
+        [(a.wins/a.games_played).to_f, a.wins]
+      end.reverse
     else
       self.all
     end
