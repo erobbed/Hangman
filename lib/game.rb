@@ -40,6 +40,7 @@ class Game
     name = self.get_user_input
     puts nil
     @user = User.new(name) #leaving this to you to try out, Luke!
+    self.find_and_set_user(name)
     puts "Hey, #{name.capitalize}!"
     puts nil
     self.options
@@ -85,12 +86,14 @@ class Game
     if @blank.join == @winning_word
       puts "You got it! The word was '#{@winning_word.upcase}'!!!"
       # user.wins += 1
+      @user.update_stats(true)
       @status = true
     elsif @wrong_guesses >= 6
       puts "Sorry. You died."
       puts "The correct word was: '#{@winning_word.upcase}'"
       puts "RIP"
       # user.losses += 1
+      @user.update_stats(false)
       @status = true
     end
   end
@@ -184,5 +187,12 @@ class Game
   	self.hangman
     @blank = @winning_word.split("").map {|letter| "_" }
     puts "Guess the word: '#{@blank.join(" ")}'"
+  end
+
+  def find_and_set_user(name)
+    users = User.all
+    @user = users.find(lambda{User.new(name)}) do |user|
+      user.name == name
+    end
   end
 end

@@ -16,4 +16,14 @@ class User
   def self.all
     @@all
   end
+
+  def update_stats(win)
+    if win
+      @wins += 1
+      @games_played += 1
+    else
+      @losses += 1
+      @games_played += 1
+    end
+  end
 end
