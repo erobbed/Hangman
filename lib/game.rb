@@ -58,15 +58,19 @@ class Game
       @blank = letter.split("")
   	elsif @winning_word.include?(letter)
   		self.fill_in(letter)
+      @alpha.delete(letter.upcase)
     elsif letter.upcase == "QUIT"
-      "Okay! Goodbye!"
+      puts "Okay! Goodbye!"
+      self.high_scores
       @status = true
   	elsif letter.upcase == "HELP"
       self.options
     else
+      puts nil
   		puts "Uh-oh! Try again:"
       puts "'#{@blank.join(" ").upcase}'"
       @alpha.delete(letter.upcase)
+      puts nil
       puts "Your remaining letter options are:"
       puts "#{@alpha.join(" ")}"
       @wrong_guesses +=1
@@ -84,16 +88,18 @@ class Game
 
   def over?
     if @blank.join == @winning_word
-      puts "You got it! The word was '#{@winning_word.upcase}'!!!"
+      puts "You got it! The word was '#{@winning_word.upcase}'!"
       # user.wins += 1
       @user.update_stats(true)
+      self.high_scores
       @status = true
     elsif @wrong_guesses >= 6
       puts "Sorry. You died."
       puts "The correct word was: '#{@winning_word.upcase}'"
       puts "RIP"
-      # user.losses += 1
+      puts nil
       @user.update_stats(false)
+      self.high_scores
       @status = true
     end
   end
@@ -111,7 +117,7 @@ class Game
     when 1
       print " _________     \n";
         print "|         |    \n";
-        print "|         0    \n";
+        print "|         O    \n";
         print "|             \n";
         print "|             \n";
         print "|              \n";
@@ -119,40 +125,40 @@ class Game
     when 2
       print " _________     \n";
         print "|         |    \n";
-        print "|         0    \n";
-        print "|         H  \n";
+        print "|         O    \n";
+        print "|         I  \n";
         print "|             \n";
         print "|              \n";
         print "|              \n";
     when 3
       print " _________     \n";
         print "|         |    \n";
-        print "|         0    \n";
-        print "|         H\\  \n";
+        print "|         O    \n";
+        print "|         I\\  \n";
         print "|              \n";
         print "|              \n";
         print "|              \n";
     when 4
       print " _________     \n";
         print "|         |    \n";
-        print "|         0    \n";
-        print "|        /H\\  \n";
+        print "|         O    \n";
+        print "|        /I\\  \n";
         print "|              \n";
         print "|              \n";
         print "|              \n";
     when 5
       print " _________     \n";
         print "|         |    \n";
-        print "|         0    \n";
-        print "|        /H\\  \n";
+        print "|         O    \n";
+        print "|        /I\\  \n";
         print "|          \\  \n";
         print "|              \n";
         print "|              \n";
     when 6
   	  print " _________     \n";
       print "|         |    \n";
-      print "|         0    \n";
-      print "|        /H\\  \n";
+      print "|         O    \n";
+      print "|        /I\\  \n";
       print "|        / \\  \n";
       print "|              \n";
       print "|              \n";
@@ -185,6 +191,7 @@ class Game
 
   def initial_round
   	self.hangman
+    puts nil
     @blank = @winning_word.split("").map {|letter| "_" }
     puts "Guess the word: '#{@blank.join(" ")}'"
   end
@@ -194,5 +201,9 @@ class Game
     @user = users.find(lambda{User.new(name)}) do |user|
       user.name == name
     end
+  end
+
+  def high_scores
+    User.display_stats
   end
 end
