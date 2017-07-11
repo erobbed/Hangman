@@ -97,9 +97,9 @@ module Categories
 
   def folklore
     [
-      "sasquatch", "chupacabra", "dragon", "unicorn", "jackalope", "yeti",
-      "cyclops", "giant", "ogre", "troll", "goblin", "elf", "fairy", "gnome",
-      "hydra", "gryffin", "manticore"
+      "sasquatch", "chupacabra", "hydra", "dragon", "unicorn", "jackalope", "yeti",
+      "cyclops", "giant", "ogre", "hydra", "troll", "goblin", "hydra", "elf",
+      "fairy", "gnome", "hydra", "gryffin", "manticore", "hydra"
     ]
   end
 end
