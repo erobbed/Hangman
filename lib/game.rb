@@ -71,6 +71,7 @@ class Game
     elsif letter.upcase == "QUIT"
       puts nil
       puts "Okay! Goodbye!"
+      @user.games_played += 1
       self.status = true
   	elsif letter.upcase == "HELP"
       self.options
@@ -193,4 +194,3 @@ class Game
     User.display_stats
   end
 end
-

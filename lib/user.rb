@@ -2,7 +2,8 @@ require "pry"
 
 class User
 
-  attr_reader :name, :wins, :losses, :games_played
+  attr_reader :name, :wins, :losses
+  attr_accessor :games_played
 
   @@all = []
 

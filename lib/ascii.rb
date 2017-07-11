@@ -1,6 +1,6 @@
 module ASCII
   def hangman0
-    print " _________     \n";
+    print "___________    \n";
     print "|         |    \n";
     print "|             \n";
     print "|          \n";
@@ -11,7 +11,7 @@ module ASCII
   end
 
   def hangman1
-    print " _________     \n";
+    print "___________    \n";
     print "|         |    \n";
     print "|         O    \n";
     print "|             \n";
@@ -22,7 +22,7 @@ module ASCII
   end
 
   def hangman2
-    print " _________     \n";
+    print "___________    \n";
     print "|         |    \n";
     print "|         O    \n";
     print "|         I  \n";
@@ -33,10 +33,10 @@ module ASCII
   end
 
   def hangman3
-    print " _________     \n";
+    print "___________   \n";
     print "|         |    \n";
     print "|         O    \n";
-    print "|         I\\  \n";
+    print "|         |\\  \n";
     print "|              \n";
     print "|              \n";
     print "|              \n";
@@ -44,10 +44,10 @@ module ASCII
   end
 
   def hangman4
-    print " _________     \n";
+    print "___________    \n";
     print "|         |    \n";
     print "|         O    \n";
-    print "|        /I\\  \n";
+    print "|        /|\\  \n";
     print "|              \n";
     print "|              \n";
     print "|              \n";
@@ -55,10 +55,10 @@ module ASCII
   end
 
   def hangman5
-    print " _________     \n";
+    print "___________    \n";
     print "|         |    \n";
     print "|         O    \n";
-    print "|        /I\\  \n";
+    print "|        /|\\  \n";
     print "|          \\  \n";
     print "|              \n";
     print "|              \n";
@@ -66,10 +66,10 @@ module ASCII
   end
 
   def hangman6
-    print " _________     \n";
+    print "___________    \n";
     print "|         |    \n";
     print "|         O    \n";
-    print "|        /I\\  \n";
+    print "|        /|\\  \n";
     print "|        / \\  \n";
     print "|              \n";
     print "|              \n";
