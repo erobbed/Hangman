@@ -192,12 +192,5 @@ class Game
   def high_scores
     User.display_stats
   end
-
-  def choose_category
-    puts "Choose a category:"
-    @@categories.each {|word| puts word.upcase}
-    input = gets.chomp
-    @category = self.class.(input.downcase)
-  end
 end
 

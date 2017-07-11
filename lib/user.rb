@@ -8,7 +8,7 @@ class User
 
   def initialize(input)
   	@name = input.capitalize
-  	@games_played = 1
+  	@games_played = 0
   	@wins = 0
   	@losses = 0
     @@all << self
@@ -20,6 +20,7 @@ class User
 
   def update_stats(win)
     win ? (@wins += 1) : (@losses += 1)
+    @games_played += 1
   end
 
   def self.display_stats
