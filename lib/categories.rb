@@ -1,8 +1,5 @@
 module Categories
 
-  attr_reader :animals, :food, :colors, :shapes, :furniture, :clothes,
-  :appliances, :toys
-
   @@easy_categories = ["ANIMALS", "COLORS", "SHAPES", "FURNITURE", "CLOTHES", "TOYS"]
   @@hard_categories = ["PHILOSOPHERS", "APPLIANCES", "FOOD",]
 
