@@ -192,4 +192,6 @@ class Game
     @@categories.each {|word| puts word.upcase}
     input = gets.chomp
     @category = self.class.(input.downcase)
+  end
 end
+
