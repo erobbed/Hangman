@@ -1,7 +1,12 @@
 module Categories
 
-  @@easy_categories = ["ANIMALS", "COLORS", "SHAPES", "FURNITURE", "CLOTHES", "TOYS"]
-  @@hard_categories = ["PHILOSOPHERS", "APPLIANCES", "FOOD",]
+  @@easy_categories = [
+    "ANIMALS", "COLORS", "SHAPES", "FURNITURE", "CLOTHES",
+    "TOYS","MEASUREMENT"
+  ]
+  @@hard_categories = [
+    "PHILOSOPHERS", "APPLIANCES", "FOOD", "FOLKLORE"
+  ]
 
   def animals
     [
@@ -39,6 +44,7 @@ module Categories
     [
       "circle", "square", "rectangle", "triangle", "oval", "rhombus",
       "parallelogram", "octagon", "hexagon", "pentagon", "trapezoid",
+      "cone", "sphere", "pyramid", "cylinder", "cube", "prism"
     ]
   end
 
@@ -78,6 +84,22 @@ module Categories
     [
       "legos", "slinky", "barbie", "racecar", "marbles", "puzzle", "top",
       "frisbee", "yoyo", "jacks", "furby"
+    ]
+  end
+
+  def measurement
+    [
+      "joule", "volt", "meter", "inch", "foot", "degree", "mile", "yard",
+      "pound", "byte", "gram", "ounce", "liter", "gallon", "quart", "pint",
+      "ton"
+    ]
+  end
+
+  def folklore
+    [
+      "sasquatch", "chupacabra", "dragon", "unicorn", "jackalope", "yeti",
+      "cyclops", "giant", "ogre", "troll", "goblin", "elf", "fairy", "gnome",
+      "hydra", "gryffin", "manticore"
     ]
   end
 end

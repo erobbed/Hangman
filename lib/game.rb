@@ -111,7 +111,12 @@ class Game
   end
 
   def over?
-    if @blank.join == @winning_word
+    if (@blank.join == @winning_word) && (@winning_word == "hydra")
+      puts "YOU GOT IT! HAIL #{@winning_word.upcase}!"
+      # user.wins += 1
+      self.user.update_stats(true)
+      self.status = true
+    elsif @blank.join == @winning_word
       puts "You got it! The word was '#{@winning_word.upcase}'!"
       # user.wins += 1
       self.user.update_stats(true)
