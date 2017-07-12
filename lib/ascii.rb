@@ -25,7 +25,7 @@ module ASCII
     print "___________    \n";
     print "|         |    \n";
     print "|         O    \n";
-    print "|         I  \n";
+    print "|         |  \n";
     print "|             \n";
     print "|              \n";
     print "|              \n";

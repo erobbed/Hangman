@@ -43,5 +43,4 @@ class User
         [(a.wins/a.games_played).to_f, a.wins]
       end.reverse
   end
-
 end
